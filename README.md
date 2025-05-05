@@ -73,7 +73,3 @@ The browser extension can be loaded as an unpacked extension in Chrome/Edge. It 
   - Domain analysis
   - URL structure analysis
   - Risk factor assessment
-
-## License
-
-MIT License
