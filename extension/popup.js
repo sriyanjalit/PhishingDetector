@@ -55,15 +55,18 @@ document.addEventListener('DOMContentLoaded', function() {
         riskFactorsUl.innerHTML = '';
         
         // Update result box class and status message
-        if (result.is_phishing) {
-            resultDiv.className = 'result-box phishing';
-            statusDiv.textContent = '⚠️ Warning: Potential Phishing Website Detected!';
-        } else if (result.confidence > 0.6) {
-            resultDiv.className = 'result-box warning';
-            statusDiv.textContent = '⚠️ Caution: Some Suspicious Elements Detected';
-        } else {
+        if (result.confidence < 0.3) {
             resultDiv.className = 'result-box safe';
-            statusDiv.textContent = '✅ Website Appears Safe';
+            resultDiv.style.backgroundColor = '#00ff00'; // Green for safe websites
+            statusDiv.textContent = 'Website Appears Safe';
+        } else if (result.confidence >= 0.3 && result.confidence < 0.5) {
+            resultDiv.className = 'result-box warning';
+            resultDiv.style.backgroundColor = '#ffa500'; // Orange for potential phishing
+            statusDiv.textContent = 'Caution: Website May Be Phished';
+        } else {
+            resultDiv.className = 'result-box phishing';
+            resultDiv.style.backgroundColor = '#ff0000'; // Red for unsafe websites
+            statusDiv.textContent = 'Warning: Website Not Safe';
         }
 
         // Add risk factors if any

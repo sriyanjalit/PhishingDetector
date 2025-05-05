@@ -62,17 +62,26 @@ function showPhishingWarning(data) {
         box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     `;
 
+    // Add color-coded risk levels
+    if (data.confidence < 0.3) {
+        warningBanner.style.backgroundColor = '#00ff00'; // Safe - Green
+    } else if (data.confidence >= 0.3 && data.confidence < 0.5) {
+        warningBanner.style.backgroundColor = '#ffa500'; // Medium risk - Orange
+    } else {
+        warningBanner.style.backgroundColor = '#ff0000'; // High risk - Red
+    }
+
     // Create warning content
-    let warningContent = `⚠️ Warning: This website has been detected as potentially dangerous!<br>`;
+    let warningContent = `Warning: This website has been detected as potentially dangerous!<br>`;
     warningContent += `<strong>Confidence:</strong> ${Math.round(data.confidence * 100)}%<br>`;
 
     // Add external API results if available
     if (data.external_checks) {
         if (data.external_checks.phishtank && data.external_checks.phishtank.is_phishing) {
-            warningContent += `<br>✖️ This URL is listed in PhishTank's database of known phishing sites.<br>`;
+            warningContent += `<br>This URL is listed in PhishTank's database of known phishing sites.<br>`;
         }
         if (data.external_checks.google_safe_browsing && data.external_checks.google_safe_browsing.is_dangerous) {
-            warningContent += `<br>⚠️ Google Safe Browsing has flagged this site as dangerous.<br>`;
+            warningContent += `<br>Google Safe Browsing has flagged this site as dangerous.<br>`;
             if (data.external_checks.google_safe_browsing.threat_types) {
                 warningContent += `Threat types: ${data.external_checks.google_safe_browsing.threat_types.join(', ')}<br>`;
             }
